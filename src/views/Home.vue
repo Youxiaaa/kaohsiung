@@ -9,46 +9,49 @@
     </div>
 
     <!-- content -->
-    <section>
+    <section class="preFade" :class="{'fadeIn': !isFade}">
       <div class="content preFade" :class="{'fadeIn': !isFade}">
         <!-- leftSide -->
         <div class="computerleftSide d-flex align-items-center justify-content-center flex-column px-4">
           <div class="mt-auto">
-            <h1 class="h3 text-white">高 雄 旅 遊 資 訊 網</h1>
+            <h1 class="h3 text-white">高雄旅遊資訊網</h1>
             <select class="form-control mt-2" v-model="currentZone">
               <option value="" disabled selected>請選擇行政區...</option>
               <option value="">全部區域</option>
               <option :value="item" v-for="item in locations" :key="item.id"> {{ item }} </option>
             </select>
           </div>
-          <div class="mt-auto">
-            <ul class="d-flex justify-content-center text-center p-0">
+          <div class="mt-auto mb-3">
+            <ul class="d-flex justify-content-center text-center p-0 mb-0">
               <li class="list-unstyled mx-2 h4"><a href="https://www.facebook.com/YuTsungChih" target="_blank"><i class="fab fa-facebook text-white"></i></a></li>
               <li class="list-unstyled mx-2 h4"><a href="https://www.instagram.com/youxiaaaaaa/" target="_blank"><i class="fab fa-instagram text-white"></i></a></li>
               <li class="list-unstyled mx-2 h4"><a href="https://github.com/Youxiaaa" target="_blank"><i class="fab fa-github-alt text-white"></i></a></li>
             </ul>
+              <h2 class="h6 text-white">Copyright &copy; 2021 YoYo游</h2>
           </div>
         </div>
         <div class="leftSide d-flex align-items-center justify-content-center flex-column px-4" :class="{'leftSideMove': sideMove}">
           <div class="leftSideBtn">
             <div class="d-flex justify-content-center mt-2">
-              <h2 class="text-white" @click="sideMove = !sideMove">&raquo;</h2>
+              <h2 class="text-white" @click="sideMove = !sideMove" v-if="sideMove">&laquo;</h2>
+              <h2 class="text-white" @click="sideMove = !sideMove" v-else>&raquo;</h2>
             </div>
           </div>
           <div class="mt-auto">
-            <h1 class="h3 text-white">高 雄 旅 遊 資 訊 網</h1>
+            <h1 class="h3 text-white mt-4">高雄旅遊資訊網</h1>
             <select class="form-control mt-2" v-model="currentZone">
               <option value="" disabled selected>請選擇行政區...</option>
               <option value="">全部區域</option>
               <option :value="item" v-for="item in locations" :key="item.id"> {{ item }} </option>
             </select>
           </div>
-          <div class="mt-auto">
-            <ul class="d-flex justify-content-center text-center p-0">
+          <div class="mt-auto mb-3">
+            <ul class="d-flex justify-content-center text-center p-0 mb-0">
               <li class="list-unstyled mx-2 h4"><a href="https://www.facebook.com/YuTsungChih" target="_blank"><i class="fab fa-facebook text-white"></i></a></li>
               <li class="list-unstyled mx-2 h4"><a href="https://www.instagram.com/youxiaaaaaa/" target="_blank"><i class="fab fa-instagram text-white"></i></a></li>
               <li class="list-unstyled mx-2 h4"><a href="https://github.com/Youxiaaa" target="_blank"><i class="fab fa-github-alt text-white"></i></a></li>
             </ul>
+            <h2 class="h6 text-white">Copyright &copy; 2021 YoYo游</h2>
           </div>
         </div>
         <!-- rightSide -->
@@ -61,7 +64,7 @@
                     <img :src="item.Picture1" :alt="item.Picdescribe1" height="150px" width="100%">
                   </div>
                   <div class="card-body p-0 pl-3 py-3 bg-white">
-                    <h2 class="h6 text-secondary"> {{ item.Name }} </h2>
+                    <h2 class="h6 text-secondary font-fix"> {{ item.Name }} </h2>
                   </div>
                 </div>
               </div>
@@ -84,13 +87,15 @@
               </ul>
             </nav>
         </div>
-        <div class="rightSide" :class="{'rightSideMove': sideMove}">
+        <div class="rightSide px-4" :class="{'rightSideMove': sideMove}">
+          <!-- 遮罩 -->
+          <div class="curtain" :class="{'curtainShow': sideMove}"></div>
           <div class="container">
             <div class="row">
               <div class="col-md-3 my-3" v-for="item in filterData[currentPage]" :key="item.id">
                 <div class="card h-100" @click="checkDetail(item)">
                   <div class="card-header p-0">
-                    <img :src="item.Picture1" :alt="item.Picdescribe1" height="150px" width="100%">
+                    <img :src="item.Picture1" :alt="item.Picdescribe1" height="200px" width="100%">
                   </div>
                   <div class="card-body p-0 pl-3 py-3 bg-white">
                     <h2 class="h6 text-secondary"> {{ item.Name }} </h2>
@@ -101,11 +106,11 @@
           </div>
             <!-- pagination -->
             <div class="d-flex justify-content-center my-5" v-if="filterData.length > 1">
-              第
-              <select v-model="currentPage">
+              <span class="h5 text-secondary d-flex align-self-center">第</span>
+              <select v-model="currentPage" class="mx-3 p-2">
                 <option :value="item - 1" v-for="item in filterData.length" :key="item.id"> {{ item }} </option>
               </select>
-              頁
+              <span class="h5 text-secondary d-flex align-self-center">頁</span>
             </div>
         </div>
       </div>
@@ -124,7 +129,7 @@ export default {
         '鹽埕區', '鼓山區', '左營區', '楠梓區', '三民區', '新興區', '前金區', '苓雅區', '前鎮區', '旗津區', '小港區', '鳳山區', '林園區', '大寮區', '大樹區', '大社區', '仁武區', '鳥松區', '岡山區', '橋頭區', '燕巢區', '田寮區', '阿蓮區', '路竹區', '湖內區', '茄萣區', '永安區', '彌陀區', '梓官區', '旗山區', '美濃區', '六龜區', '甲仙區', '杉林區', '內門區', '茂林區', '桃源區', '那瑪夏區'
       ],
       currentZone: '',
-      isFade: false,
+      isFade: true,
       sideMove: false
     }
   },
@@ -135,11 +140,11 @@ export default {
       let filterData = []
 
       if (vm.currentZone !== '') {
-        filterData = vm.data.filter((item) => item.Add.indexOf(vm.currentZone) !== -1)
+        filterData = JSON.parse(sessionStorage.getItem('localData')).filter((item) => item.Add.indexOf(vm.currentZone) !== -1)
         vm.currentPage = 0
         vm.sideMove = false
       } else {
-        filterData = vm.data
+        filterData = JSON.parse(sessionStorage.getItem('localData'))
         vm.sideMove = false
       }
 
@@ -162,22 +167,28 @@ export default {
       vm.isFade = !vm.isFade
       setTimeout(() => {
         vm.$router.push(`detail/${item.Id}`)
-      }, 500)
+      }, 300)
       setTimeout(() => {
         vm.$bus.$emit('getDetail', item, vm.currentZone, vm.currentPage)
-      }, 600)
+      }, 400)
     }
   },
   created () {
     const vm = this
     const api = 'https://api.kcg.gov.tw/api/service/get/9c8e1450-e833-499c-8320-29b36b7ace5c'
     vm.isLoading = true
-    vm.isFade = true
-    vm.$http.get(api).then((res) => {
+
+    if (sessionStorage.getItem('localData') !== null) {
       vm.isLoading = false
       vm.isFade = false
-      vm.data = res.data.data.XML_Head.Infos.Info
-    })
+    } else {
+      vm.$http.get(api).then((res) => {
+        vm.isLoading = false
+        vm.isFade = false
+        vm.data = res.data.data.XML_Head.Infos.Info
+        sessionStorage.setItem('localData', JSON.stringify(res.data.data.XML_Head.Infos.Info))
+      })
+    }
     vm.$bus.$on('getZone', (currentZone, currentPage) => {
       vm.currentZone = currentZone
       vm.currentPage = currentPage
