@@ -9,7 +9,7 @@
           </ol>
         </nav>
       </div>
-      <div class="row mt-5">
+      <div class="row mt-2">
         <div class="col-md-6">
           <img :src="data.Picture1" :alt="data.Picdescribe1" width="100%">
         </div>
@@ -17,7 +17,7 @@
           <br class="phoneFix">
           <br class="phoneFix">
           <h2 class="h2 text-danger"> {{ data.Name }} </h2>
-          <h3 class="h6 text-secondary mt-5 lh-fix"> {{ data.Description }} </h3>
+          <h3 class="h6 text-secondary mt-2 lh-fix"> {{ data.Description }} </h3>
           <small class="mt-auto"> {{ data.Add }} </small>
           <small> {{ data.Tel }} </small>
           <small> {{ data.Changetime }} </small>
@@ -49,11 +49,11 @@
                 <br>
                 <br>
                 <i class="far fa-clock text-danger"></i> {{ data.Opentime }}
-                <br>
-                <br>
+                <br v-if="data.Opentime">
+                <br v-if="data.Opentime">
                 <i class="fas fa-clipboard-check text-danger" v-if="data.Ticketinfo"></i> {{ data.Ticketinfo }}
-                <br>
-                <br>
+                <br v-if="data.Ticketinfo">
+                <br v-if="data.Ticketinfo">
                 <i class="fas fa-car text-danger" v-if="data.Parkinginfo"></i> {{ data.Parkinginfo }}
               </p>
             </div>
@@ -77,18 +77,24 @@ export default {
   methods: {
     returnPage () {
       const vm = this
+      vm.isFade = !vm.isFade
       if (vm.currentZone === '全部區域') {
-        vm.currentZone = ''
+        setTimeout(() => {
+          vm.currentZone = ''
+          vm.$router.push('/')
+        }, 500)
+        setTimeout(() => {
+          vm.$bus.$emit('getZone', vm.currentZone, vm.currentPage)
+        }, 600)
+      } else {
+        setTimeout(() => {
+          vm.$router.push('/')
+        }, 500)
       }
-      vm.$router.push('/')
-      setTimeout(() => {
-        vm.$bus.$emit('getZone', vm.currentZone, vm.currentPage)
-      }, 50)
     }
   },
   created () {
     const vm = this
-
     vm.$bus.$on('getDetail', (item, currentZone, currentPage) => {
       vm.data = item
       vm.currentZone = currentZone
