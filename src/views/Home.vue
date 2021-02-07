@@ -61,7 +61,7 @@
               <div class="col-md-3 my-3" v-for="item in filterData[currentPage]" :key="item.id">
                 <div class="card h-100" @click="checkDetail(item)">
                   <div class="card-header p-0">
-                    <img :src="item.Picture1" :alt="item.Picdescribe1" height="150px" width="100%">
+                    <img v-lazy="item.Picture1" :alt="item.Picdescribe1" height="150px" width="100%">
                   </div>
                   <div class="card-body p-0 pl-3 py-3 bg-white">
                     <h2 class="h6 text-secondary font-fix"> {{ item.Name }} </h2>
@@ -95,7 +95,7 @@
               <div class="col-md-3 my-3" v-for="item in filterData[currentPage]" :key="item.id">
                 <div class="card h-100" @click="checkDetail(item)">
                   <div class="card-header p-0">
-                    <img :src="item.Picture1" :alt="item.Picdescribe1" height="200px" width="100%">
+                    <img v-lazy="item.Picture1" :alt="item.Picdescribe1" height="200px" width="100%">
                   </div>
                   <div class="card-body p-0 pl-3 py-3 bg-white">
                     <h2 class="h6 text-secondary"> {{ item.Name }} </h2>
